@@ -9,6 +9,11 @@ builder.Services.AddDbContext<Orban_Gabriela_Lab2Context>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Orban_Gabriela_Lab2Context")
         ?? throw new InvalidOperationException("Connection string not found.")));
 
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("LibraryIdentityContext")));
+builder.Services.AddDefaultIdentity<Microsoft.AspNetCore.Identity.IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<LibraryIdentityContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +28,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
